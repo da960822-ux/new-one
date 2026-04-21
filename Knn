@@ -1,0 +1,87 @@
+# Split the dataset
+# Practice: Select the T, RH, and AH columns from data and store them in X
+X = data.loc[:, 'T':'AH']
+
+# Practice: Select the Comfortable column from data and store it in y
+y = data['Comfortable']
+
+# Check the data
+# X, y
+
+# Split into train and test sets
+
+# Check the number of samples corresponding to 70%
+print(len(X) * 0.7)  # 1082 samples correspond to 70%
+
+# Split the data using iloc
+X_train = X.iloc[:1082]
+X_test = X.iloc[1082:]
+y_train = y.iloc[:1082]
+y_test = y.iloc[1082:]
+
+# Check the shapes
+X_train.shape, X_test.shape, y_train.shape, y_test.shape
+
+# Let's use a train-test split tool
+# Import the train-test split function
+from sklearn.model_selection import train_test_split
+
+# Separate features and target manually
+y = data.pop('Comfortable')
+x = data
+
+x, y
+
+# Make sure the variable order matches
+X_train, X_test, y_train, y_test = train_test_split(
+    x, y,                  # Original data to split into train and test sets
+    test_size=0.3,         # Size of the test set (30%)
+    random_state=2025,     # Fix the random order for reproducibility
+    stratify=y             # Keep the same class ratio because y is categorical
+)
+
+# random_state:
+# If the result changes every time you run the code, it is hard to reproduce the experiment
+
+# Practice: Split the train and test data
+# train : test = 0.75 : 0.25
+# random_state = 2026
+# Since the target is categorical, set stratify = y
+
+X_train, X_test, y_train, y_test = train_test_split(
+    x, y,
+    test_size=0.25,
+    random_state=2026,
+    stratify=y
+)
+
+X_train.shape, X_test.shape, y_train.shape, y_test.shape
+
+# Import the KNN model
+from sklearn.neighbors import KNeighborsClassifier
+
+# Create the model object
+knn = KNeighborsClassifier()  # Default k value is 5
+knn
+
+# Train the model
+knn.fit(X_train, y_train)
+
+# Evaluate the model
+knn.score(X_test, y_test)
+
+# Predict a new sample
+knn.predict([[20, 31, 0.76]])
+
+# Hyperparameter tuning
+# Create a new model
+# n_neighbors means the number of neighbors, and the default is 5
+# Create a new model with k = 11
+
+knn1 = KNeighborsClassifier(n_neighbors=11)
+knn1.fit(X_train, y_train)
+
+knn = KNeighborsClassifier()
+knn.fit(X_train, y_train)
+
+knn1.score(X_test, y_test)
